@@ -23,15 +23,11 @@ class ElectionsController < ApplicationController
   def create
     @election = Election.new(election_params)
 
-    respond_to do |format|
       if @election.save
-        format.html { redirect_to @election, notice: "Election was successfully created." }
-        format.json { render :show, status: :created, location: @election }
+        redirect_to root_path, notice: "Election was successfully created." 
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @election.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity 
       end
-    end
   end
 
   # PATCH/PUT /elections/1 or /elections/1.json

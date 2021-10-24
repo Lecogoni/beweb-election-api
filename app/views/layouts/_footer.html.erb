@@ -1,0 +1,14 @@
+<footer>
+    <div class="container">
+    <% if user_signed_in? %>
+        <div>
+                <ul class="">
+                    <li class="">Salut <%= current_user.first_name %></li>
+                    <li class=""><%= link_to "Se déconnecter", destroy_user_session_path, method: :delete %></li>
+                    <li class=""><%= link_to 'Editer mon profil', edit_user_path(current_user) %></li>
+                    <li class=""><%= link_to "Modifier email / mot de passe", edit_user_registration_path %></li>
+                </ul>
+        </div>
+    <% end %>
+    </div>
+</footer>
