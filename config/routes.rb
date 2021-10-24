@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   resources :voters
   resources :users
   resources :elections
+
+  root 'elections#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
