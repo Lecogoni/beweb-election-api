@@ -11,17 +11,19 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :election_id %>
-    <%= form.text_field :election_id %>
-  </div>
+  <%= form.hidden_field :election_id, value: @voter.election_id %>
+  <%= form.hidden_field :user_id, value: @voter.user_id %>
 
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+  <h4><%= current_user.first_name.capitalize %> c'est a toi de voter pour l'élection : </h4>
+  <p>merci de choisir un candidat dans la liste :</p>
+
+   <div class="field">
+    <%= form.select :candidate_id, options_for_select(Candidate.where(election_id: @voter.election_id).collect {|candidate| ["#{candidate.user.first_name} #{candidate.user.last_name}", candidate.id] }), :include_blank => 'Choississez un candidat :', :input_html => { :class => 'form-control' }, :style => '', required: true  %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'A voté', class: 'btn btn-primary mt-2 mb-2' %>
   </div>
 <% end %>
+
+<%= link_to 'Annuler', voter, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' %>

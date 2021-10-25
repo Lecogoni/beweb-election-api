@@ -11,27 +11,20 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :election_id %>
-    <%= form.text_field :election_id %>
-  </div>
+  <%= form.hidden_field :election_id, :value => @election_id %>
+
 
   <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id %>
+    <p>Choissisez le candidats dans la liste : </p>
+    <%= form.select :user_id, options_for_select(User.all.collect {|user| ["#{user.first_name} #{user.last_name}", user.id] }), :include_blank => 'Choississez un candidat :', :input_html => { :class => 'form-control' }, :style => '', required: true  %>
   </div>
 
-  <div class="field">
-    <%= form.label :slogan %>
-    <%= form.text_field :slogan %>
-  </div>
-
-  <div class="field">
-    <%= form.label :program %>
-    <%= form.text_field :program %>
+  <div class="field mt-4 mb-3">
+    <%= form.label :slogan %><br>
+    <%= form.text_area :slogan %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit 'Valider la candidature', class: 'btn btn-primary' %>
   </div>
 <% end %>

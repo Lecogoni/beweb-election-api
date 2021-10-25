@@ -1,6 +1,7 @@
 <footer>
     <div class="container mt-3">
     <% if user_signed_in? %>
+        <h3 class="mx-auto" style="width: 200px;">Hello <%= current_user.first_name %></h3>
         <div class="d-flex justify-content-around">
             <%= link_to 'Se déconnecter', destroy_user_session_path, method: :delete, class: 'btn btn-secondary' %>
             <%= link_to 'Editer mon profil', edit_user_path(current_user), class: 'btn btn-secondary' %>

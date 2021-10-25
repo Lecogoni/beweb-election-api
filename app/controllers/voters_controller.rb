@@ -12,7 +12,17 @@ class VotersController < ApplicationController
 
   # GET /voters/new
   def new
-    @voter = Voter.new
+    @election_id = params[:election]
+
+    if Voter.where(election_id: @election_id, user_id: current_user.id ).count >= 2
+        redirect_to election_path(@election_id), notice: "vous avez déjà voté"
+    else
+        @voter = Voter.new
+        @voter.election_id = @election_id
+        @voter.user_id = current_user.id
+        @voter.save
+        redirect_to edit_voter_path(@voter)
+    end
   end
 
   # GET /voters/1/edit
@@ -36,24 +46,18 @@ class VotersController < ApplicationController
 
   # PATCH/PUT /voters/1 or /voters/1.json
   def update
-    respond_to do |format|
+
       if @voter.update(voter_params)
-        format.html { redirect_to @voter, notice: "Voter was successfully updated." }
-        format.json { render :show, status: :ok, location: @voter }
+        redirect_to election_path(@voter.election_id), notice: "Voter was successfully updated."
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @voter.errors, status: :unprocessable_entity }
+        render :edit, status: :unprocessable_entity
       end
-    end
   end
 
   # DELETE /voters/1 or /voters/1.json
   def destroy
     @voter.destroy
-    respond_to do |format|
-      format.html { redirect_to voters_url, notice: "Voter was successfully destroyed." }
-      format.json { head :no_content }
-    end
+    redirect_to election_path(@voter.election_id)
   end
 
   private
@@ -64,6 +68,6 @@ class VotersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def voter_params
-      params.require(:voter).permit(:election_id, :user_id)
+      params.require(:voter).permit(:election_id, :user_id, :candidate_id)
     end
 end

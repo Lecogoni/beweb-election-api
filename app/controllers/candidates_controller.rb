@@ -13,6 +13,7 @@ class CandidatesController < ApplicationController
   # GET /candidates/new
   def new
     @candidate = Candidate.new
+    @election_id = params[:election]
   end
 
   # GET /candidates/1/edit
@@ -21,17 +22,24 @@ class CandidatesController < ApplicationController
 
   # POST /candidates or /candidates.json
   def create
-    @candidate = Candidate.new(candidate_params)
 
-    respond_to do |format|
-      if @candidate.save
-        format.html { redirect_to @candidate, notice: "Candidate was successfully created." }
-        format.json { render :show, status: :created, location: @candidate }
-      else
+    @candidate = Candidate.new(candidate_params)
+    
+    if @candidate.save
+        
+        @candidate_declared = Candidate.where(election_id: @candidate.election_id, user_id: @candidate.user_id).count
+        
+        if  @candidate_declared > 1
+            @candidate.destroy
+            redirect_to election_path(@candidate.election_id), notice: "CE CANDIDAT EST DEJA DECLARE - IMPOSSIBLE DE LE DECLARER A NOUVEAU"
+        else 
+            redirect_to election_path(@candidate.election_id), notice: "Candidate was successfully created."
+        end
+ 
+    else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @candidate.errors, status: :unprocessable_entity }
-      end
     end
+    
   end
 
   # PATCH/PUT /candidates/1 or /candidates/1.json

@@ -1,19 +1,161 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @election.title %>
-</p>
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header p-2">
+                <div class="d-flex justify-content-between p-2">
+                    <div class="">
+                        <h1 class=""><%= @election.title %></h1>
+                        <p class="p-0"><%= @election.description %></p>
+                    </div>
+                    <div class="">
+                        <span class="badge badge-pill badge-info  align-top mr-2 p-2">créé par <%= @election.user.full_name  %></span>
+                        <% if @election.started == false && @election.end == false %>
+                            <span class="badge badge-pill badge-secondary align-top float-right p-2">Vote non débuté</span>
+                        <% elsif @election.started == true && @election.end == false %>
+                            <span class="badge badge-pill badge-primary align-top float-right p-2">Vote en cours</span>
+                        <% elsif @election.started == true && @election.end == true %>
+                            <span class="badge badge-pill badge-warning align-top float-right p-2">élection terminée</span>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @election.description %>
-</p>
+<!-- ACTION -->
+            <div class="card-body">
+                <% if user_signed_in? && @election.user_id === current_user.id && @election.end == false %>
+                    <% if @election.candidates.count < 2 %>
+                        <div class="d-flex align-items-center flex-column bd-highlight mb-3">
+                            <h4 class="">il faut au minimum deux candidats pour débuter les votes</h4>
+                            <%= link_to 'New Candidate', new_candidate_path(election: @election.id), class: 'btn btn-primary mt-3' %>
+                        </div>
+                    <% elsif @election.candidates.count >= 2 && @election.started == FALSE %>
+                        <div class="d-flex align-items-center flex-column bd-highlight mb-3">
+                        <h5 class="">Le nombre minimun de candidats est atteints, souhaitez vous en ajouter d'autres ou débuter les votes</h5>
+                        </div>
+                        <div class="d-flex justify-content-around">
+                            <div>
+                                <%= link_to 'New Candidate', new_candidate_path(election: @election.id), class: 'btn btn-primary mt-3' %>
+                            </div>
+                            <div>
+                                <%= link_to 'Débuter les votes', toggle_election_statut_election_path(), class: 'btn btn-success mt-3' %>
+                            </div>
+                        </div>
+                    <% elsif @election.candidates.count >= 2 && @election.started == TRUE %>
 
-<p>
-  <strong>Started:</strong>
-  <%= @election.started %>
-</p>
+                        <div class="d-flex justify-content-around">
+                            <div class="p-4">
+                                <div class="d-flex align-items-center flex-column bd-highlight mb-3">
+                                    <%= link_to 'cloturer', end_election_election_path(), class: 'btn btn-success mb-3' %>
+                                    <div>
+                                        <p class="text-center text-muted">Si vous choississez de cloturer, les votes seront terminés, et les résultats seront affichés.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="d-flex align-items-center flex-column bd-highlight mb-3">
+                                    <%= link_to 'Annuler', delete_vote_election_path(), class: 'btn btn-danger mb-3' %>
+                                    <div>
+                                        <p class="text-center text-muted">Les votes sont ouverts. Si vous annulez cela aura pour conséquences de supprimer tout les votes déjà enregistrés.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% end %>
+                    <hr>
+                <% end %>
 
-<%= link_to 'Edit', edit_election_path(@election) %> |
-<%= link_to 'Back', elections_path %>
+<!-- RESULT -->
+                <% if @election.end %>
+                    <article>
+                        <h3>Les résultats du vote sont : </h3>
+                        <br>
+                        <strong></strong>
+                        <h5>Delegué : <strong><%= @first.user.full_name %></strong> avec <strong><%= @first_result %></strong> votes</h5>
+                        <br>
+                        <h5>Suppléant : <strong><%= @second.user.full_name %></strong> avec <strong><%= @second_result %></strong> votes</h5>
+                    </article>
+                <% end %>
+
+<!-- LISTE DES CANDIDATS -->
+                <% if @candidates.count >= 1 %>
+                    <div class="d-flex align-items-center flex-column bd-highlight mb-3">
+                        <h4 class="">Liste des candidats</h4>
+                    </div>
+                    <div class="row">
+                        <% @candidates.each do |candidate| %>
+                            <div class="col-4">
+                                <div class="card mb-2">
+                                    <div class="card-header">
+                                        <div class="d-flex justify-content-between">
+                                            <div><h5><%= candidate.user.full_name %></h5></div>
+                                            <% if @election.end %>
+                                                <div><h5><span class="badge bg-success pl-4 pr-4"><%= Voter.where(candidate_id: candidate.id).count %> voix</span></h5></div>
+                                            <% end %>
+                                        </div>
+                                    </div>
+                                    <div class="card-body"><%= candidate.slogan %></div>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                <% end %>
+
+<!-- LISTE DES VOTANTS -->
+                <% if @election.started == TRUE %>
+                <hr>
+                    <div class="p-3">
+
+                        <div class="d-flex align-items-center flex-column bd-highlight mb-3">
+                            <h4 class="">Liste des votants</h4>
+                                <% if !@election.end %>
+                                    <%= link_to 'Je vote',  new_voter_path(election: @election.id), class: 'btn btn-success mt-3 align-top' %>
+                                <% end %>
+                        </div>
+
+                        <div class="">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Prénom</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>vote 1</th>
+                                        <th>vote 2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% @voters.each do |vote|%>
+                                        <tr>
+                                            <td><%= vote.user.first_name.capitalize %></td>
+                                            <td><%= vote.user.last_name.capitalize %></td>
+                                            <td><%= vote.user.email %></td>
+                                            <td class='text-center' style="color: green;"><%= vote.num_of_vote_current_user(@election, vote) > 0 ? "x" : "  " %></td>
+                                            <td class='text-center' style="color: green;"><%= vote.num_of_vote_current_user(@election, vote) === 2 ? "x" : "  " %></td>
+                                        </tr>
+                                    <% end %>
+                                    <% %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+
+            <% if user_signed_in? && @election.user_id === current_user.id && !@election.end %>
+                <div class="card-footer">
+                    <% if @election.user_id == current_user.id %>
+                        <div class="d-flex justify-content-end mt-4">
+                            <%= link_to 'Modifier', edit_election_path(@election), class: 'btn btn-info' %>
+                        </div>
+                    <% end %>
+                </div>
+            <% end %>
+
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-end mt-4">
+    <%= link_to 'retour à la liste des elections', elections_path, class: 'btn btn-secondary' %>
+</div>
