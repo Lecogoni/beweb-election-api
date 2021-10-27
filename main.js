@@ -9,6 +9,7 @@ let r;
 a = 10;
 b = 20;
 
+r = 33 + 10;
 // affichage du resultat
 
 console.log(r);
