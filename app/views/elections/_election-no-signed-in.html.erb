@@ -1,0 +1,23 @@
+<div class="row">
+    <% @elections.each do |election| %>
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <div class="d-flex justify-content-between">
+                        <div class=""><h3><%= election.title %></h3></div>
+                        <div class="">
+                            <span class="badge badge-pill badge-info  align-top mr-2">créé par <%= election.user.first_name  %></span>
+                            <% if election.started == false %>
+                                <span class="badge badge-pill badge-secondary align-top float-right">Vote non débuté</span>
+                            <% else %>
+                                <span class="badge badge-pill badge-primary align-top float-right">Vote en cours</span>
+                            <% end %>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <%= election.description %>
+                </div>
+            </div>
+        </div>
+<% end %>

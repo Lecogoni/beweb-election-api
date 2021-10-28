@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between mb-4">
     <div class=""><h1>Elections</h1></div>
     <div class="">
-     <% if user_signed_in? %>
-             <%= link_to 'Nouvelle Election', new_election_path, class: 'btn btn-primary' %>
+        <% if user_signed_in? %>
+            <%= link_to 'Nouvelle Election', new_election_path, class: 'btn btn-primary' %>
         <% else %>
             <%= link_to 'Se connecter', new_user_session_path, class: 'btn btn-info' %>
             <%= link_to "S'inscrire", new_user_registration_path, class: 'btn btn-info' %>
@@ -10,32 +10,12 @@
     </div>
 </div>
 
-<div class="row">
-    <% @elections.each do |election| %>
-        <div class="col-12 mb-4">
-            <%= link_to election do %>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="d-flex justify-content-between">
-                            <div class=""><h3><%= election.title %></h3></div>
-                            <div class="">
-                                <span class="badge badge-pill badge-info  align-top mr-2">créé par <%= election.user.first_name  %></span>
-                                <% if election.started == false %>
-                                    <span class="badge badge-pill badge-secondary align-top float-right">Vote non débuté</span>
-                                <% else %>
-                                    <span class="badge badge-pill badge-primary align-top float-right">Vote en cours</span>
-                                <% end %>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <%= election.description %>
-                    </div>
-                </div>
-            <% end %>
-        </div>
-    <% end %>
-</div>
+<% if user_signed_in? %>
+    <%= render 'election-signed-in' %>
+<% else %>
+    <%= render 'election-no-signed-in' %>
+<% end %>
+
 
 
 

@@ -17,6 +17,19 @@ class ElectionsController < ApplicationController
         @first_result = @winners.sort_by{|k, v| v}.reverse.first[1].to_i
         @second = Candidate.find(@winners.sort_by{|k, v| v}.reverse.second[0].to_i)
         @second_result = @winners.sort_by{|k, v| v}.reverse.second[1].to_i
+
+        if @winners.count === 3
+            @third = Candidate.find(@winners.sort_by{|k, v| v}.reverse.third[0].to_i)
+            @third_result = @winners.sort_by{|k, v| v}.reverse.third[1].to_i
+        end
+        
+        if @winners.count >= 4
+            @third = Candidate.find(@winners.sort_by{|k, v| v}.reverse.third[0].to_i)
+            @third_result = @winners.sort_by{|k, v| v}.reverse.third[1].to_i
+            @fourth = Candidate.find(@winners.sort_by{|k, v| v}.reverse.fourth[0].to_i)
+            @fourth_result = @winners.sort_by{|k, v| v}.reverse.fourth[1].to_i
+        end
+
     end
  
 
