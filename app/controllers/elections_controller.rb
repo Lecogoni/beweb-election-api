@@ -12,6 +12,7 @@ class ElectionsController < ApplicationController
     @voters = Voter.where(election_id: @election.id).select(:user_id).distinct
     @winners = Voter.where(election_id: @election.id).group(:candidate_id).count(:candidate_id)
 
+    # check number of candidates
     if @election.end
         @first = Candidate.find(@winners.sort_by{|k, v| v}.reverse.first[0].to_i)
         @first_result = @winners.sort_by{|k, v| v}.reverse.first[1].to_i
