@@ -1,24 +1,20 @@
-/* [1 - CONNEXION UTILISATEUR] */
-//Information socker en BD
-let email = "trou@bado.ur";
-let password = "123456789";
+/* EXTRAS */
+/*  4- FizzBuzz*/
+/**
+ * Generer un nombre aléatoire 
+ *  - Si le nombre est un multiple de 3 afficher en console fizz
+ *  - Si le nombre est un multiple de 5 afficher en console buzz
+ *  - Si le nombre est un multiple de de 3 et de 5 afficher en console fizzbuzz
+ */
 
-//Informations recues du formulaire de connexion
-let inputEmail = "";
-let inputPassword = "";
+let a = parseInt(Math.random() *100);
 
-//Ecrire le code qui renvoie en console l'état de l'utilisateur apres le processus de conexion.
-
-
-/* [2 - TEST DE PARITE] */
-
-let input;
-
-// Ecrite le code que affiche en console la paritée de input
-
-
-/* [3 - CONSOMMATION D'ENERGIE] */
-let isShinning = false;
-let isLighten = false;
-
-// renvoyer sur l'UI l'etat de la lumière lors de la gestion d'energie...
+if (a % 3 === 0 && a % 5 === 0 ) {
+    console.log('fizzbuzz');
+} else if (a % 5 === 0) {
+    console.log('buzz');
+} else if (a % 3 === 0) {
+    console.log('fizz');
+} else {
+    console.log("ni l'un ni l'autre");
+}
