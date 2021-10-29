@@ -7,6 +7,7 @@
     <tr>
       <th>Election</th>
       <th>User</th>
+      <th>Candidate</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
       <tr>
         <td><%= voter.election_id %></td>
         <td><%= voter.user_id %></td>
+        <td><%= voter.candidate_id %></td>
         <td><%= link_to 'Show', voter %></td>
         <td><%= link_to 'Edit', edit_voter_path(voter) %></td>
         <td><%= link_to 'Destroy', voter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
