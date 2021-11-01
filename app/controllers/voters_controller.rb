@@ -35,14 +35,16 @@ class VotersController < ApplicationController
 
     
     if @voter.save
+
         if @voter.candidate_id.blank?
             @voter.destroy
         end
+
         redirect_to @voter, notice: "Voter was successfully created." 
-      else
+    else
         render :new, status: :unprocessable_entity 
-      end
     end
+    
   end
 
   # PATCH/PUT /voters/1 or /voters/1.json

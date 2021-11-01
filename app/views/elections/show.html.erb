@@ -89,7 +89,9 @@
 <!-- RESULT -->
                 <% if @election.end %>
 
-                    <article>
+                    <%
+=begin%>
+ <article>
 
                     <% if @winners.count === 0 %>
                         <h3>Aucun vote enregistré</h3>
@@ -219,15 +221,12 @@
 
                     <% end %>
 
-                    </article>
-
-                    <%
-=begin%>
- <article>                 
-                        <%= @winners.count %>
-                    </article>  
+                    </article> 
 <%
 =end%>
+
+
+
                 <% end %>
 
 <!-- LISTE DES CANDIDATS -->
