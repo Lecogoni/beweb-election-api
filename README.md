@@ -1,24 +1,8 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Simple ruby app pour gérer des elections / des votes.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1/ être un user enregistré pour crééer une élection / voter
+2/ Tout le monde peut nominer un candidat parmi la liste des users enregistré
+3/ chaque user peut voter 2 fois par élection - possibilité de voter les 2 fois pour le même candaidats
+4/ l'admin d'une election - son créateur - peut cloturer les votes pour afficher les résultats
