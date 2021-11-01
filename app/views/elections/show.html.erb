@@ -88,9 +88,6 @@
 
 <!-- RESULT -->
 
-                <%= @winners.count %>
-
-
                 <% if @election.end %>
 
                     <article>
@@ -120,105 +117,102 @@
                                 <br>
                                 <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
                                 <br>
+                            <% end %>
+                        <% end %>
 
-                            <% elsif @winners.count === 3 %>
+                        <% if @winners.count === 3 %>
+                            <% if @first_result === @second_result && @second_result === @third_result %>
+                                <h3>Le résultat du vote est : EGALITE</h3>
+                                <br>
+                                <h5><%= @first.user.full_name %>, <%= @second.user.full_name %> et <%= @third %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
+                                <br>
 
-                                <% if @first_result === @second_result && @second_result === @third_result %>
-                                    <h3>Le résultat du vote est : EGALITE</h3>
-                                    <br>
-                                    <h5><%= @first.user.full_name %>, <%= @second.user.full_name %> et <%= @third %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
-                                    <br>
+                            <% elsif @first_result === @second_result && @second_result > @third_result %>
+                                <h3>Le résultat du vote est : EGALITE</h3>
+                                <br>
+                                <h5><%= @first.user.full_name %> et <%= @second.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
+                                <br>
 
-                                <% elsif @first_result === @second_result && @second_result > @third_result %>
-                                    <h3>Le résultat du vote est : EGALITE</h3>
-                                    <br>
-                                    <h5><%= @first.user.full_name %> et <%= @second.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
-                                    <br>
+                            <% elsif @first_result > @second_result && @second_result > @third_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
 
-                                <% elsif @first_result > @second_result && @second_result > @third_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
+                            <% elsif @first_result > @second_result && @second_result === @third_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Egalité entre : <%= @second.user.full_name %> et <%= @third.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
+                            <% end %>
+                        <% end %>
 
-                                <% elsif @first_result > @second_result && @second_result === @third_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Egalité entre : <%= @second.user.full_name %> et <%= @third.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
-                                <% end %>
+                        <% if @winners.count >= 4 %>
+                            <% if @first_result === @second_result && @second_result > @third_result %>
+                                <h3>Le résultat du vote est : EGALITE</h3>
+                                <br>
+                                <h5><%= @first.user.full_name %> et <%= @second.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
+                                <br>
 
+                            <% elsif @first_result > @second_result && @second_result === @third_result && @third_result > @fourth_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Egalité entre : <%= @second.user.full_name %> et <%= @third.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
 
-                            <% elsif @winners.count >= 4 %>
-                                <p>on est la</p>
-                                <% if @first_result === @second_result && @second_result > @third_result %>
-                                    <h3>Le résultat du vote est : EGALITE</h3>
-                                    <br>
-                                    <h5><%= @first.user.full_name %> et <%= @second.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
-                                    <br>
+                            <% elsif @first_result > @second_result && @second_result === @third_result && @third_result === @fourth_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Egalité entre : <%= @second.user.full_name %>, <%= @third.user.full_name %> et <%= @fourth.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
 
-                                <% elsif @first_result > @second_result && @second_result === @third_result && @third_result > @fourth_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Egalité entre : <%= @second.user.full_name %> et <%= @third.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
-
-                                <% elsif @first_result > @second_result && @second_result === @third_result && @third_result === @fourth_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Egalité entre : <%= @second.user.full_name %>, <%= @third.user.full_name %> et <%= @fourth.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
-
-                                <% elsif @first_result > @second_result && @second_result > @third_result && @third_result > @fourth_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
-                                    
-                                <% elsif @first_result > @second_result && @second_result > @third_result && @third_result === @fourth_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
+                            <% elsif @first_result > @second_result && @second_result > @third_result && @third_result > @fourth_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
+                                
+                            <% elsif @first_result > @second_result && @second_result > @third_result && @third_result === @fourth_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Suppléant : <%= @second.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
 
 
-                                <% elsif @first_result === @second_result && @second_result === @third_result && @third_result === @fourth_result %>
-                                    <h3>Le résultat du vote est : EGALITE</h3>
-                                    <br>
-                                    <h5><%= @first.user.full_name %>, <%= @second.user.full_name %>, <%= @third.user.full_name %> et <%= @fourth.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
-                                    <br>
+                            <% elsif @first_result === @second_result && @second_result === @third_result && @third_result === @fourth_result %>
+                                <h3>Le résultat du vote est : EGALITE</h3>
+                                <br>
+                                <h5><%= @first.user.full_name %>, <%= @second.user.full_name %>, <%= @third.user.full_name %> et <%= @fourth.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
+                                <br>
 
-                                <% elsif @first_result === @second_result && @second_result === @third_result && @third_result > @fourth_result %>
-                                    <h3>Le résultat du vote est : EGALITE</h3>
-                                    <br>
-                                    <h5><%= @first.user.full_name %>, <%= @second.user.full_name %> et <%= @third.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
-                                    <br>
-                                <% elsif @first_result > @second_result && @second_result === @third_result && @third_result > @fourth_result %>
-                                    <h3>Le résultat du vote est : </h3>
-                                    <br>
-                                    <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
-                                    <br>
-                                    <h5>Egalité entre : <%= @second.user.full_name %> et <%= @third.user.full_name %> avec <%= @second_result %> votes</h5>
-                                    <br>
-
-                                <% end %>
+                            <% elsif @first_result === @second_result && @second_result === @third_result && @third_result > @fourth_result %>
+                                <h3>Le résultat du vote est : EGALITE</h3>
+                                <br>
+                                <h5><%= @first.user.full_name %>, <%= @second.user.full_name %> et <%= @third.user.full_name %> ont obtenu le même nombre de voix : <%= @first_result %></h5>
+                                <br>
+                            <% elsif @first_result > @second_result && @second_result === @third_result && @third_result > @fourth_result %>
+                                <h3>Le résultat du vote est : </h3>
+                                <br>
+                                <h5>Delegué : <%= @first.user.full_name %> avec <%= @first_result %> votes</h5>
+                                <br>
+                                <h5>Egalité entre : <%= @second.user.full_name %> et <%= @third.user.full_name %> avec <%= @second_result %> votes</h5>
+                                <br>
 
                             <% end %>
 
                         <% end %>
-
                     </article>
                 <% end %>
 
