@@ -6,13 +6,13 @@
                     <div class="d-flex justify-content-between">
                         <div class=""><h3><%= election.title %></h3></div>
                         <div class="">
-                            <span class="badge badge-pill badge-info  align-top  float-right mr-2 ">créé par <%= election.user.first_name  %></span>
+                            <span class="badge badge-pill badge-info align-top  float-right mr-2 p-2">créé par <%= election.user.first_name  %></span>
                             <% if election.started == false && election.end == false %>
-                                <span class="badge badge-pill badge-secondary align-top float-right">Vote non débuté</span>
+                                <span class="badge badge-pill badge-secondary align-top float-right p-2">Vote non débuté</span>
                             <% elsif election.started == true && election.end == false %>
-                                <span class="badge badge-pill badge-primary align-top float-right">Vote en cours</span>
+                                <span class="badge badge-pill badge-primary align-top float-right p-2">Vote en cours</span>
                             <% elsif election.started == true && election.end == true %>
-                                <span class="badge badge-pill badge-warning align-top float-right">élection terminée</span>
+                                <span class="badge badge-pill badge-warning align-top float-right p-2">élection terminée</span>
                             <% end %>
                         </div>
                     </div>
