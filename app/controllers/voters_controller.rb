@@ -33,13 +33,14 @@ class VotersController < ApplicationController
   def create
     @voter = Voter.new(voter_params)
 
-    respond_to do |format|
-      if @voter.save
-        format.html { redirect_to @voter, notice: "Voter was successfully created." }
-        format.json { render :show, status: :created, location: @voter }
+    
+    if @voter.save
+        if @voter.candidate_id.blank?
+            @voter.destroy
+        end
+        redirect_to @voter, notice: "Voter was successfully created." 
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @voter.errors, status: :unprocessable_entity }
+        render :new, status: :unprocessable_entity 
       end
     end
   end

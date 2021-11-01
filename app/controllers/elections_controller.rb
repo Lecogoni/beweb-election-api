@@ -32,7 +32,6 @@ class ElectionsController < ApplicationController
             @fourth = Candidate.find(@winners.sort_by{|k, v| v}.reverse.fourth[0].to_i)
             @fourth_result = @winners.sort_by{|k, v| v}.reverse.fourth[1].to_i
         end
-
     end
  
 

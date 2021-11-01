@@ -29,15 +29,19 @@ class CandidatesController < ApplicationController
         
         @candidate_declared = Candidate.where(election_id: @candidate.election_id, user_id: @candidate.user_id).count
         
+        if @candidate.user_id.blank?
+            @candidate.destroy
+            redirect_to election_path(@candidate.election_id)
+        end
+
         if  @candidate_declared > 1
             @candidate.destroy
             redirect_to election_path(@candidate.election_id), notice: "CE CANDIDAT EST DEJA DECLARE - IMPOSSIBLE DE LE DECLARER A NOUVEAU"
         else 
             redirect_to election_path(@candidate.election_id), notice: "Candidate was successfully created."
         end
- 
     else
-        format.html { render :new, status: :unprocessable_entity }
+        redirect_to election_path(@candidate.election_id)
     end
     
   end
